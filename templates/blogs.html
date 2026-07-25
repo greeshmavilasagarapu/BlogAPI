@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Blogs</title>
+</head>
+<body>
+    {{range .Blogs}}
+    <div>
+        <h2>{{.Name}}</h2>
+        <p>{{.Content}}</p>
+        <p>Author ID: {{.Author_id}}</p>
+        <p>Created At: {{.Created_at}}</p>
+        <p>Updated At: {{.Updated_at}}</p>
+    </div>
+    {{end}}
+</body>
+</html>
