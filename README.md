@@ -1,26 +1,34 @@
 # BLOGAPI
 
 ## Features
-- Create a blog
-- Read a blog
-- Update a blog
-- Delete a blog
-
+- Create, Read, Update, and Delete (CRUD) Authors
+- Create, Read, Update, and Delete (CRUD) Blogs
+- UUID-based unique IDs
+- JSON file storage
+- Modular project structure
 ## Technologies Used
 - HTML
 - Go
+- JSON
 
-## Installation
-1. Clone or download the project to your local machine
-2. Install dependencies:
+## Getting Started
 
-   ```bash
-   npm install
-   ```
+### Clone the repository
 
-## Run the Project
-2.Compile and run the Go backend:
+```bash
+git clone <repository-url>
+cd api
+```
+
+### Install dependencies
+
+```bash
+go mod tidy
+```
+
+### Run the project
+
 ```bash
 go run main.go
-```
+``
 *(Note: Replace `main.go` with the actual name of your entry file if it is different).*
