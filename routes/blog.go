@@ -9,7 +9,7 @@ import (
 func RegisterBlogRoutes(router *gin.Engine, controller *controllers.Controller) {
 	blogRoutes := router.Group("/blogs")
 	{
-		blogRoutes.GET("/author/:id", controller.GetBlogsByAuthor) 
+		blogRoutes.GET("/author/:id", controller.GetBlogsByAuthor)
 		blogRoutes.POST("/", controller.CreateBlog)
 		blogRoutes.GET("/:id", controller.GetBlogById)
 		blogRoutes.GET("/", controller.GetAllBlogs)
