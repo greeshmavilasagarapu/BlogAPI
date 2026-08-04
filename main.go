@@ -1,19 +1,83 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
-var (
-	authors []Author
-	blogs   []Blog
-)
+// var (
+// 	authors []Author
+// 	blogs   []Blog
+// )
+
+func LoadData() Data {
+	file, err := os.ReadFile("data.json")
+	if err != nil {
+		return Data{}
+	}
+
+	var data Data
+
+	err = json.Unmarshal(file, &data)
+	if err != nil {
+		return Data{}
+	}
+
+	return data
+}
+
+func storeAuthors(Authors []Author) {
+	data := Data{
+		Blogs:   readallblogs(),
+		Authors: Authors,
+	}
+
+	file, err := json.MarshalIndent(data, "", " ")
+	if err != nil {
+		return
+	}
+
+	err = os.WriteFile("data.json", file, 0644)
+	if err != nil {
+		return
+	}
+}
+
+func storeBlogs(Blogs []Blog) {
+	data := Data{
+		Blogs:   Blogs,
+		Authors: readallauthors(),
+	}
+
+	file, err := json.MarshalIndent(data, "", " ")
+	if err != nil {
+		return
+	}
+
+	err = os.WriteFile("data.json", file, 0644)
+	if err != nil {
+		return
+	}
+}
+func syncDataPeriodically() {
+	go func() {
+		for {
+			storeData()
+			time.Sleep(5 * time.Second)
+		}
+	}()
+}
 
 func main() {
 	router := gin.Default()
+
+	LoadData()
+	syncDataPeriodically()
 
 	router.LoadHTMLFS(http.Dir("."), "index.html")
 	router.LoadHTMLGlob("templates/*")
@@ -230,6 +294,41 @@ func main() {
 		flushAuthors()
 		ctx.JSON(200, gin.H{
 			"message": "All authors deleted",
+		})
+	})
+
+	router.GET("/save", func(ctx *gin.Context) {
+		storeData()
+
+		ctx.JSON(200, gin.H{
+			"message": "Data saved successfully",
+		})
+	})
+
+	router.GET("/load", func(ctx *gin.Context) {
+		file, err := os.ReadFile("data.json")
+		if err != nil {
+			ctx.JSON(500, gin.H{
+				"error": "Failed to load data",
+			})
+			return
+		}
+
+		var data Data
+
+		err = json.Unmarshal(file, &data)
+		if err != nil {
+			ctx.JSON(500, gin.H{
+				"error": "Failed to load data",
+			})
+			return
+		}
+
+		blogs = data.Blogs
+		authors = data.Authors
+
+		ctx.JSON(200, gin.H{
+			"message": "Data loaded successfully",
 		})
 	})
 

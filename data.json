@@ -1,0 +1,45 @@
+{
+ "blogs": [
+  {
+   "id": "8d71b70a-ac1d-42a9-9deb-d04ff8a5a7ad",
+   "name": "Hello World",
+   "content": "Wellcome to my Blog",
+   "author_id": "bab321d5-7231-4905-b049-8fc3da34a37f",
+   "created_at": "2026-07-25T10:32:07.722546798Z",
+   "updated_at": "2026-07-25T10:32:07.722546798Z"
+  },
+  {
+   "id": "361f0da6-b476-4b27-b4f1-4eeb978059a9",
+   "name": "Hello World",
+   "content": "Wellcome to my Blog",
+   "author_id": "bab321d5-7231-4905-b049-8fc3da34a37f",
+   "created_at": "2026-07-25T10:42:16.948744615Z",
+   "updated_at": "2026-07-25T10:42:16.948744615Z"
+  },
+  {
+   "id": "8a70a317-6483-4f18-970a-9110e44236d0",
+   "name": "Hello World",
+   "content": "Wellcome to my Blog",
+   "author_id": "bab321d5-7231-4905-b049-8fc3da34a37f",
+   "created_at": "2026-07-25T10:42:19.567879855Z",
+   "updated_at": "2026-07-25T10:42:19.567879855Z"
+  }
+ ],
+ "authors": [
+  {
+   "id": "bab321d5-7231-4905-b049-8fc3da34a37f",
+   "name": "Bravo",
+   "created_at": "2026-07-25T10:31:39.737772383Z"
+  },
+  {
+   "id": "65766544-ee32-4f5a-a91a-00007bcecf3d",
+   "name": "Bravo",
+   "created_at": "2026-07-25T10:42:23.512189702Z"
+  },
+  {
+   "id": "8e6cb2e1-f414-4127-83b1-6b122866d2eb",
+   "name": "Bravo",
+   "created_at": "2026-07-25T10:42:24.383806016Z"
+  }
+ ]
+}

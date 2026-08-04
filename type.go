@@ -2,7 +2,6 @@ package main
 
 import (
 	"time"
-
 	"github.com/google/uuid"
 )
 
@@ -19,4 +18,9 @@ type Author struct {
 	Id         uuid.UUID `json:"id"`
 	Name       string    `json:"name"`
 	Created_at time.Time `json:"created_at"`
+}
+
+type Data struct {
+	Blogs   []Blog   `json:"blogs"`
+	Authors []Author `json:"authors"`
 }

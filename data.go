@@ -7,8 +7,6 @@ import (
 	"github.com/google/uuid"
 )
 
-var ()
-
 func createAuthor(
 	name string,
 ) Author {
@@ -21,7 +19,10 @@ func createAuthor(
 		Created_at: created_at,
 	}
 
+	authors := readallauthors()
 	authors = append(authors, author)
+
+	storeAuthors(authors)
 
 	return author
 }
@@ -39,12 +40,18 @@ func createBlog(
 		Created_at: current_time,
 		Updated_at: current_time,
 	}
+
+	blogs := readallblogs()
 	blogs = append(blogs, blog)
+
+	storeBlogs(blogs)
+
 	return blog
 }
 func readauthor(
 	id uuid.UUID,
 ) Author {
+	authors := readallauthors()
 	for _, author := range authors {
 		if author.Id == id {
 			return author
@@ -55,6 +62,7 @@ func readauthor(
 func readblog(
 	id uuid.UUID,
 ) Blog {
+	blogs := readallblogs()
 	for _, blog := range blogs {
 		if blog.Id == id {
 			return blog
@@ -63,20 +71,22 @@ func readblog(
 	return Blog{}
 }
 func readallauthors() []Author {
-	return authors
+	data := LoadData()
+	return data.Authors
 }
 func readallblogs() []Blog {
-	time_tz, _ := time.LoadLocation("Asia/Kolkata")
-	c_time := time.Now().In(time_tz)
-	time_h := c_time.Format(time.RFC850)
-	println("readallblogs called at: " + time_h)
-
-	return blogs
+	// time_tz, _ := time.LoadLocation("Asia/Kolkata")
+	// c_time := time.Now().In(time_tz)
+	// time_h := c_time.Format(time.RFC850)
+	// println("readallblogs called at: " + time_h)
+	data := LoadData()
+	return data.Blogs
 }
 func updateauthor(
 	id uuid.UUID,
 	name string,
 ) Author {
+	authors := readallauthors()
 	for i, author := range authors {
 		if author.Id == id {
 			authors[i].Name = name
@@ -90,6 +100,7 @@ func updateblog(
 	name string,
 	content string,
 ) Blog {
+	blogs := readallblogs()
 	for i, blog := range blogs {
 		if blog.Id == id {
 			blogs[i].Name = name
@@ -103,9 +114,11 @@ func updateblog(
 func deleteauthor(
 	id uuid.UUID,
 ) bool {
+	authors := readallauthors()
 	for i, author := range authors {
 		if author.Id == id {
 			authors = slices.Delete(authors, i, i+1)
+			storeAuthors(authors)
 			return true
 		}
 	}
@@ -114,9 +127,11 @@ func deleteauthor(
 func deleteblog(
 	id uuid.UUID,
 ) bool {
+	blogs := readallblogs()
 	for i, blog := range blogs {
 		if blog.Id == id {
 			blogs = slices.Delete(blogs, i, i+1)
+			storeBlogs(blogs)
 			return true
 		}
 	}
@@ -124,15 +139,18 @@ func deleteblog(
 }
 
 func flushAuthors() {
-	authors = []Author{}
+
+	//authors = []Author{}
+	storeAuthors([]Author{})
 }
 
 func flushBlogs() {
-	blogs = []Blog{}
+	//blogs = []Blog{}
+	storeBlogs([]Blog{})
 }
 func readBlogsByAuthor(authorID uuid.UUID) []Blog {
 	var authorBlogs []Blog
-
+	blogs := readallblogs()
 	for _, blog := range blogs {
 		if blog.Author_id == authorID {
 			authorBlogs = append(authorBlogs, blog)
