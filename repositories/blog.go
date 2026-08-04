@@ -1,38 +1,40 @@
-package main
+package repositories
 
 import (
 	"slices"
 	"time"
 
+	"api/interfaces"
+
 	"github.com/google/uuid"
 )
 
-func createAuthor(
+func CreateAuthor(
 	name string,
-) Author {
+) interfaces.Author {
 	id := uuid.New()
 	created_at := time.Now()
 
-	author := Author{
+	author := interfaces.Author{
 		Id:         id,
 		Name:       name,
 		Created_at: created_at,
 	}
 
-	authors := readallauthors()
+	authors := ReadAllAuthors()
 	authors = append(authors, author)
 
 	storeAuthors(authors)
 
 	return author
 }
-func createBlog(
+func CreateBlog(
 	name, content string,
 	author_id uuid.UUID,
-) Blog {
+) interfaces.Blog {
 	id := uuid.New()
 	current_time := time.Now()
-	blog := Blog{
+	blog := interfaces.Blog{
 		Id:         id,
 		Name:       name,
 		Content:    content,
@@ -41,40 +43,40 @@ func createBlog(
 		Updated_at: current_time,
 	}
 
-	blogs := readallblogs()
+	blogs := ReadAllBlogs()
 	blogs = append(blogs, blog)
 
 	storeBlogs(blogs)
 
 	return blog
 }
-func readauthor(
+func ReadAuthor(
 	id uuid.UUID,
-) Author {
-	authors := readallauthors()
+) interfaces.Author {
+	authors := ReadAllAuthors()
 	for _, author := range authors {
 		if author.Id == id {
 			return author
 		}
 	}
-	return Author{}
+	return interfaces.Author{}
 }
-func readblog(
+func ReadBlog(
 	id uuid.UUID,
-) Blog {
-	blogs := readallblogs()
+) interfaces.Blog {
+	blogs := ReadAllBlogs()
 	for _, blog := range blogs {
 		if blog.Id == id {
 			return blog
 		}
 	}
-	return Blog{}
+	return interfaces.Blog{}
 }
-func readallauthors() []Author {
+func ReadAllAuthors() []interfaces.Author {
 	data := LoadData()
 	return data.Authors
 }
-func readallblogs() []Blog {
+func ReadAllBlogs() []interfaces.Blog {
 	// time_tz, _ := time.LoadLocation("Asia/Kolkata")
 	// c_time := time.Now().In(time_tz)
 	// time_h := c_time.Format(time.RFC850)
@@ -82,25 +84,25 @@ func readallblogs() []Blog {
 	data := LoadData()
 	return data.Blogs
 }
-func updateauthor(
+func UpdateAuthor(
 	id uuid.UUID,
 	name string,
-) Author {
-	authors := readallauthors()
+) interfaces.Author {
+	authors := ReadAllAuthors()
 	for i, author := range authors {
 		if author.Id == id {
 			authors[i].Name = name
 			return authors[i]
 		}
 	}
-	return Author{}
+	return interfaces.Author{}
 }
-func updateblog(
+func UpdateBlog(
 	id uuid.UUID,
 	name string,
 	content string,
-) Blog {
-	blogs := readallblogs()
+) interfaces.Blog {
+	blogs := ReadAllBlogs()
 	for i, blog := range blogs {
 		if blog.Id == id {
 			blogs[i].Name = name
@@ -109,12 +111,12 @@ func updateblog(
 			return blogs[i]
 		}
 	}
-	return Blog{}
+	return interfaces.Blog{}
 }
 func deleteauthor(
 	id uuid.UUID,
 ) bool {
-	authors := readallauthors()
+	authors := ReadAllAuthors()
 	for i, author := range authors {
 		if author.Id == id {
 			authors = slices.Delete(authors, i, i+1)
@@ -127,7 +129,7 @@ func deleteauthor(
 func deleteblog(
 	id uuid.UUID,
 ) bool {
-	blogs := readallblogs()
+	blogs := ReadAllBlogs()
 	for i, blog := range blogs {
 		if blog.Id == id {
 			blogs = slices.Delete(blogs, i, i+1)
@@ -141,16 +143,16 @@ func deleteblog(
 func flushAuthors() {
 
 	//authors = []Author{}
-	storeAuthors([]Author{})
+	storeAuthors([]interfaces.Author{})
 }
 
 func flushBlogs() {
 	//blogs = []Blog{}
-	storeBlogs([]Blog{})
+	storeBlogs([]interfaces.Blog{})
 }
-func readBlogsByAuthor(authorID uuid.UUID) []Blog {
-	var authorBlogs []Blog
-	blogs := readallblogs()
+func ReadBlogsByAuthor(authorID uuid.UUID) []interfaces.Blog {
+	var authorBlogs []interfaces.Blog
+	blogs := ReadAllBlogs()
 	for _, blog := range blogs {
 		if blog.Author_id == authorID {
 			authorBlogs = append(authorBlogs, blog)

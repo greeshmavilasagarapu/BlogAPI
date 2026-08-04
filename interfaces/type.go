@@ -1,7 +1,8 @@
-package main
+package interfaces
 
 import (
 	"time"
+
 	"github.com/google/uuid"
 )
 
