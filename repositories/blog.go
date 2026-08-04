@@ -114,11 +114,11 @@ func UpdateBlog(
 	return interfaces.Blog{}
 }
 func deleteauthor(
-	id uuid.UUID,
+	Id uuid.UUID,
 ) bool {
 	authors := ReadAllAuthors()
 	for i, author := range authors {
-		if author.Id == id {
+		if author.Id == Id {
 			authors = slices.Delete(authors, i, i+1)
 			storeAuthors(authors)
 			return true
@@ -127,11 +127,11 @@ func deleteauthor(
 	return false
 }
 func deleteblog(
-	id uuid.UUID,
+	Id uuid.UUID,
 ) bool {
 	blogs := ReadAllBlogs()
 	for i, blog := range blogs {
-		if blog.Id == id {
+		if blog.Id == Id {
 			blogs = slices.Delete(blogs, i, i+1)
 			storeBlogs(blogs)
 			return true
@@ -160,4 +160,33 @@ func ReadBlogsByAuthor(authorID uuid.UUID) []interfaces.Blog {
 	}
 
 	return authorBlogs
+}
+func DeleteAuthor(Id uuid.UUID) bool {
+	authors := ReadAllAuthors()
+	for i, author := range authors {
+		if author.Id == Id {
+			authors = slices.Delete(authors, i, i+1)
+			storeAuthors(authors)
+			return true
+		}
+	}
+	return false
+}
+func DeleteBlog(Id uuid.UUID) bool {
+	blogs := ReadAllBlogs()
+	for i, blog := range blogs {
+		if blog.Id == Id {
+			blogs = slices.Delete(blogs, i, i+1)
+			storeBlogs(blogs)
+			return true
+		}
+	}
+	return false
+}
+func FlushAuthors() {
+	storeAuthors([]interfaces.Author{})
+}
+
+func FlushBlogs() {
+	storeBlogs([]interfaces.Blog{})
 }
