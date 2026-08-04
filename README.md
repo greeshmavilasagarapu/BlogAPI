@@ -30,5 +30,7 @@ go mod tidy
 
 ```bash
 go run main.go
-``
+```
+### API Testing 
+All endpoints were tested using Postman.
 *(Note: Replace `main.go` with the actual name of your entry file if it is different).*
