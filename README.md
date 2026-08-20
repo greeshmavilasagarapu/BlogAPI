@@ -6,10 +6,15 @@
 - UUID-based unique IDs
 - JSON file storage
 - Modular project structure
+
 ## Technologies Used
-- HTML
+
 - Go
+- REST API
 - JSON
+- UUID
+- Postman
+- Git/GitHub
 
 ## Getting Started
 
